@@ -14,21 +14,23 @@ const refs ={
 };
 let timerId =null;
 
+refs.stopBtn.disabled = 1;
 
 refs.startBtn.addEventListener('click', onStartBtnClick);
 refs.stopBtn.addEventListener('click', onStopBtnClick);
 
 function onStartBtnClick() {
     refs.startBtn.disabled = 1;
+    refs.stopBtn.disabled = 0;
     timerId =
      setInterval(()=>{    
     refs.body.style.backgroundColor = getRandomHexColor()}, 1000);
-
 
 };
 
 function onStopBtnClick () {
     clearInterval(timerId);
-    refs.startBtn.disabled=0
+    refs.startBtn.disabled=0;
+    refs.stopBtn.disabled = 1;
 }
 
