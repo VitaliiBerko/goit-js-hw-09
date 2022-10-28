@@ -5,7 +5,7 @@ function getEl(selector) {
 };
 
 refs = {
-    inputCalendar: getEl('#datetime-picker'),
+    inputCalendar: getEl('input[type="text"]'),
     startBtn: getEl('button[type="button"]'),
     timerDays: getEl('[data-days]'),
     timerHours: getEl('[data-hours]'),
@@ -13,7 +13,9 @@ refs = {
     timerSeconds: getEl('[data-seconds]'),
 };
 
+let selectedTime;
 refs.startBtn.disabled = 1;
+
 
 const options = {
     
@@ -21,44 +23,43 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
+  
   onClose(selectedDates) {
-    console.log(selectedDates[0].getTime());
-    console.log(options.defaultDate.getTime());
+    // console.log(selectedDates[0]);
+    // console.log(options.defaultDate);
+     currentTime = options.defaultDate.getTime();
+     selectedTime = selectedDates[0].getTime();
 
-    if(selectedDates[0].getTime() - options.defaultDate.getTime()<0) {
-      refs.startBtn.disabled = 0;    
+    if(selectedTime - currentTime>0) {
+       refs.startBtn.disabled = 0;      
+       return
     }
     window.alert('Please choose a date in the future')
   },
-
 };
 
- flatpickr(refs.inputCalendar, options);
 
+flatpickr("#datetime-picker", options); 
+
+refs.startBtn.addEventListener('click', timer.start);
 
 const timer = {
   start() {
-   const startTime= Date.now();
-   refs.startBtn.disabled = 1;
+    refs.startBtn.disabled = 1;
 
-   setInterval(()=>{
-    const currentTime = Date.now();
-    const deltaTime = currentTime-startTime;
-    const { days, hours, minutes, seconds } = convertMs(deltaTime);
-
-    refs.timerDays.textContent = days;
-    refs.timerHours.textContent = hours;
-    refs.timerMinutes.textContent = minutes;
-    refs.timerSeconds.textContent = seconds;
+   setInterval(()=>{ 
+      const currentTime = Date.now();      
+      const  { days, hours, minutes, seconds } =convertMs(selectedTime - currentTime);
+      refs.timerDays.textContent = days;
+      refs.timerHours.textContent = hours;
+      refs.timerMinutes.textContent = minutes;
+      refs.timerSeconds.textContent = seconds;   
 
    }, 1000)
   }
 
 };
 
-refs.startBtn.addEventListener('click', timer.start)
-
-// timer.start();
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -82,7 +83,4 @@ function convertMs(ms) {
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
-
-// ______________________________________________________________
-// ______________________________________________________________
 
