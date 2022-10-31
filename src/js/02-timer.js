@@ -14,6 +14,7 @@ refs = {
 };
 
 let selectedTime;
+let timerId =null;
 refs.startBtn.disabled = 1;
 
 
@@ -47,15 +48,18 @@ const timer = {
   start() {
     refs.startBtn.disabled = 1;
 
-   setInterval(()=>{ 
-      const currentTime = Date.now();      
-      const  { days, hours, minutes, seconds } =convertMs(selectedTime - currentTime);
+    timerId = setInterval(() => {
+      const currentTime = Date.now();
+      const { days, hours, minutes, seconds } = convertMs(selectedTime - currentTime);
       refs.timerDays.textContent = days;
       refs.timerHours.textContent = hours;
       refs.timerMinutes.textContent = minutes;
-      refs.timerSeconds.textContent = seconds;   
-
-   }, 1000)
+      refs.timerSeconds.textContent = seconds;
+    }, 1000);
+    
+    if (selectedTime - currentTime === 0) {
+      clearInterval(timerId);
+    }
   }
 
 };
