@@ -5,7 +5,7 @@ function getEl(selector) {
   return document.querySelector(selector);
 }
 
- const refs = {
+const refs = {
   inputCalendar: getEl('input[type="text"]'),
   startBtn: getEl('button[type="button"]'),
   timerDays: getEl('[data-days]'),
@@ -15,6 +15,7 @@ function getEl(selector) {
 };
 
 let selectedTime;
+let currentTime;
 let timerId = null;
 refs.startBtn.disabled = 1;
 
@@ -34,11 +35,9 @@ const options = {
     }
     // window.alert('Please choose a date in the future');
     Notiflix.Notify.init({
-      position:'center-center'
-    })
+      position: 'center-center',
+    });
     Notiflix.Notify.failure('Please choose a date in the future');
-   
-    
   },
 };
 
