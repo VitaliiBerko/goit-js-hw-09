@@ -7,32 +7,15 @@ const refs = {
   form: getEl('.form'),
   delay: getEl('[name="delay"]'),
   step: getEl('[name="step"]'),
-  amount: getEl('[name="amount"]')
+  amount: getEl('[name="amount"]'),
 };
-
-
-let timerId = null;
-
-let maxPostion = refs.amount.value;
-
-
 
 refs.form.addEventListener('submit', onBtnCreatePrClick);
 
-
 function createPromise(position, delay) {
-   delay = Number(refs.delay.value);
-   let step =refs.step.value;
-  //  delay+=step;
-  
-  position=+1;
-  if(position ===maxPostion) {
-    clearInterval(timerId);
-    return;
-  }
   return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
-    timerId = setInterval(() => {
+    setTimeout(() => {
       if (shouldResolve) {
         // Fulfill
         resolve(`✅ Fulfilled promise ${position} in ${delay}ms`);
@@ -42,19 +25,23 @@ function createPromise(position, delay) {
       }
     }, delay);
   });
-};
-
-
+}
 
 function onBtnCreatePrClick(e) {
   e.preventDefault();
-  
-  createPromise()
-  .then(result => {
-    Notiflix.Notify.success(result);
-  })
-  .catch(error => {
-    Notiflix.Notify.failure(error);
-  });
-  
+  let step = Number(refs.step.value);
+  let maxPostion = Number(refs.amount.value);
+  let delay = Number(refs.delay.value);
+  delay = delay - step;
+  for (let position = 1; position <= maxPostion; position += 1) {
+    delay += step;
+
+    createPromise(position, delay)
+      .then(result => {
+        Notiflix.Notify.success(result);
+      })
+      .catch(error => {
+        Notiflix.Notify.failure(error);
+      });
+  }
 }
