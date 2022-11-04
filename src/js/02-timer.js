@@ -5,7 +5,7 @@ function getEl(selector) {
   return document.querySelector(selector);
 }
 
-refs = {
+ const refs = {
   inputCalendar: getEl('input[type="text"]'),
   startBtn: getEl('button[type="button"]'),
   timerDays: getEl('[data-days]'),
