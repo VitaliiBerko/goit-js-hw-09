@@ -17,7 +17,7 @@ const refs = {
 let selectedTime;
 let currentTime;
 let timerId = null;
-refs.startBtn.disabled = 1;
+refs.startBtn.disabled = true;
 
 const options = {
   enableTime: true,
@@ -30,7 +30,7 @@ const options = {
     selectedTime = selectedDates[0].getTime();
 
     if (selectedTime - currentTime > 0) {
-      refs.startBtn.disabled = 0;
+      refs.startBtn.disabled = false;
       return;
     }
     // window.alert('Please choose a date in the future');
@@ -45,7 +45,7 @@ flatpickr('#datetime-picker', options);
 
 const timer = {
   start() {
-    refs.startBtn.disabled = 1;
+    refs.startBtn.disabled = true;
 
     timerId = setInterval(() => {
       const currentTime = Date.now();

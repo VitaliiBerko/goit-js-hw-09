@@ -14,14 +14,14 @@ const refs ={
 };
 let timerId =null;
 
-refs.stopBtn.disabled = 1;
+refs.stopBtn.disabled = true;
 
 refs.startBtn.addEventListener('click', onStartBtnClick);
 refs.stopBtn.addEventListener('click', onStopBtnClick);
 
 function onStartBtnClick() {
-    refs.startBtn.disabled = 1;
-    refs.stopBtn.disabled = 0;
+    refs.startBtn.disabled = true;
+    refs.stopBtn.disabled = false;
     timerId =
      setInterval(()=>{    
     refs.body.style.backgroundColor = getRandomHexColor()}, 1000);
@@ -30,7 +30,7 @@ function onStartBtnClick() {
 
 function onStopBtnClick () {
     clearInterval(timerId);
-    refs.startBtn.disabled=0;
-    refs.stopBtn.disabled = 1;
+    refs.startBtn.disabled=false;
+    refs.stopBtn.disabled = true;
 }
 
